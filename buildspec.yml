@@ -1,13 +1,14 @@
 version: 0.2
 
 phases:
-  pre_build:
-    commands:
-      - echo Logging in to Amazon ECR...
-      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin 47115262664.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
-      - REPOSITORY_URI=47115262664.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/webapp
-      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      - IMAGE_TAG=${COMMIT_HASH:=latest}
+pre_build:
+  commands:
+    - echo Logging in to Amazon ECR...
+    - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 47115262664.dkr.ecr.us-east-1.amazonaws.com
+    - REPOSITORY_URI=47115262664.dkr.ecr.us-east-1.amazonaws.com/nodeapp-repo
+    - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+    - IMAGE_TAG=${COMMIT_HASH:=latest}
+
 
   build:
     commands:
